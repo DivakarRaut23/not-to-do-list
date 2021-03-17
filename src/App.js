@@ -50,7 +50,7 @@ const hourSaved =  calcTotalHours(notToDoList);
       <Container>
   <Row>
     <Col>
-    <div className="text-center mt-5" >Not to do List</div>
+    <div className="text-center mt-5" > <h1> NOT TO DO LIST </h1></div>
     </Col>
   </Row>
   <hr />
@@ -71,6 +71,8 @@ const hourSaved =  calcTotalHours(notToDoList);
     </Col>
   </Row>
   <Row>
+    <Col>
+    </Col>
     <Col>
      <TotalHr hourSaved={hourSaved}/>
     </Col>

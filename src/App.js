@@ -1,23 +1,85 @@
-import logo from './logo.svg';
+import {useState} from 'react';
+import {Button, Container, Row, Col }from 'react-bootstrap';
 import './App.css';
+import {AddForm} from './components/form/Addform';
+import {TaskLists} from './components/taskList/TaskLists';
+import {NotToDoLists} from './components/notToDoLists/NotToDoLists';
+import {TotalHr} from './components/totalHour/TotalHr';
 
-function App() {
+
+
+const  App = () => {
+
+const [taskList, setTaskList] = useState([]);
+const [notToDoList, setNotToDoList] = useState([])
+
+const handleOnAddTask = formData => {
+  
+  setTaskList([...taskList, formData]);
+}
+
+const handleOnRemoveTask = index => {
+
+  const item = taskList.splice(index, 1);
+
+  setNotToDoList([...notToDoList, item[0]]);
+
+  console.log(notToDoList)
+}
+
+const markAsToDo = index => {
+
+  const item = notToDoList.splice(index, 1);
+
+  setTaskList([...taskList, item[0]]);
+}
+
+const calcTotalHours = list => {
+  let total = 0 ;
+  for (let i= 0; i < list.length ; i++){
+    total = Number(list[i].hr) + total ;
+    
+  } 
+  return total ;
+}
+
+const hourSaved =  calcTotalHours(notToDoList);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Container>
+  <Row>
+    <Col>
+    <div className="text-center mt-5" >Not to do List</div>
+    </Col>
+  </Row>
+  <hr />
+  <AddForm handleOnAddTask={handleOnAddTask}/>
+  <hr/>
+  <Row>
+    <Col>
+    <TaskLists 
+    taskLists={taskList}
+    handleOnRemoveTask={handleOnRemoveTask}
+    />
+    </Col>
+    <Col>
+    <NotToDoLists 
+    notToDoList={notToDoList}
+    markAsToDo={markAsToDo}
+    />
+    </Col>
+  </Row>
+  <Row>
+    <Col>
+     <TotalHr hourSaved={hourSaved}/>
+    </Col>
+  </Row>
+</Container>
+
+
+
+      
     </div>
   );
 }

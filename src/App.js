@@ -14,8 +14,19 @@ const [taskList, setTaskList] = useState([]);
 const [notToDoList, setNotToDoList] = useState([])
 
 const handleOnAddTask = formData => {
-  
-  setTaskList([...taskList, formData]);
+
+  const hourSpent = calcTotalHours(taskList);
+
+  if ((Number(formData.hr) + hourSpent) > 168 ) {
+
+    alert("You are exhausting yourself, Your have exceeded more than 168 hrs ")
+
+  } else {
+
+    setTaskList([...taskList, formData]);
+
+  }
+    
 }
 
 const handleOnRemoveTask = index => {
@@ -44,6 +55,8 @@ const calcTotalHours = list => {
 }
 
 const hourSaved =  calcTotalHours(notToDoList);
+
+
 
   return (
     <div className="App">

@@ -20,7 +20,7 @@ return (
     <tr key={index}>
     <td>{nt.title}</td>
     <td>{nt.hr}</td>
-    <td><Button onClick={() => markAsToDo(index)}> Add to List </Button></td>
+    <td><Button onClick={() => markAsToDo(index)}> Add to Task </Button></td>
     </tr>
 )
 

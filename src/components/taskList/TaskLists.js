@@ -25,7 +25,7 @@ export const TaskLists = ({taskLists,handleOnRemoveTask}) => {
                 <tr key={index}>
                 <td>{t.title}</td>
                 <td>{t.hr}</td>
-                <td><Button onClick={() => handleOnRemoveTask(index)}> Remove </Button></td>
+                <td><Button onClick={() => handleOnRemoveTask(index)}> Remove Task </Button></td>
                 </tr>
             )
 

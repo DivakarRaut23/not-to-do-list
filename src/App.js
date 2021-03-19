@@ -5,6 +5,7 @@ import {AddForm} from './components/form/Addform';
 import {TaskLists} from './components/taskList/TaskLists';
 import {NotToDoLists} from './components/notToDoLists/NotToDoLists';
 import {TotalHr} from './components/totalHour/TotalHr';
+import { HourSaved } from './components/hourSaved/HourSaved';
 
 
 
@@ -15,9 +16,7 @@ const [notToDoList, setNotToDoList] = useState([])
 
 const handleOnAddTask = formData => {
 
-  const hourSpent = calcTotalHours(taskList);
-
-  if ((Number(formData.hr) + hourSpent) > 168 ) {
+  if ((Number(formData.hr) + totalHour) > 168 ) {
 
     alert("You are exhausting yourself, Your have exceeded more than 168 hrs ")
 
@@ -31,18 +30,36 @@ const handleOnAddTask = formData => {
 
 const handleOnRemoveTask = index => {
 
-  const item = taskList.splice(index, 1);
+  const item = taskList[index];
 
-  setNotToDoList([...notToDoList, item[0]]);
+  const newArray = taskList.filter((item, i) => i !== index);
+  setTaskList(newArray)
+
+  setNotToDoList([...notToDoList, item]);
 
   console.log(notToDoList)
 }
 
+const handleOnDeleteTask = index => {
+  
+  const updatedArray = taskList.filter((item,i) => i !== index);
+  setTaskList(updatedArray)
+}
+
+const handleOnDeleteNotToList = index => {
+  
+  const updatedArray = notToDoList.filter((item,i) => i !== index);
+  setNotToDoList(updatedArray)
+}
+
 const markAsToDo = index => {
 
-  const item = notToDoList.splice(index, 1);
+  const item = notToDoList[index];
+  const newArray = notToDoList.filter((item, i) => i !== index);
 
-  setTaskList([...taskList, item[0]]);
+  setNotToDoList(newArray);
+
+  setTaskList([...taskList, item]);
 }
 
 const calcTotalHours = list => {
@@ -55,6 +72,10 @@ const calcTotalHours = list => {
 }
 
 const hourSaved =  calcTotalHours(notToDoList);
+const hoursAllocated = calcTotalHours(taskList);
+const totalHour = hourSaved + hoursAllocated ;
+
+
 
 
 
@@ -74,20 +95,23 @@ const hourSaved =  calcTotalHours(notToDoList);
     <TaskLists 
     taskLists={taskList}
     handleOnRemoveTask={handleOnRemoveTask}
+    handleOnDeleteTask={handleOnDeleteTask}
     />
     </Col>
     <Col>
     <NotToDoLists 
     notToDoList={notToDoList}
     markAsToDo={markAsToDo}
+    handleOnDeleteNotToList={handleOnDeleteNotToList}
     />
     </Col>
   </Row>
   <Row>
     <Col>
+    <TotalHr totalHour={totalHour}/>
     </Col>
     <Col>
-     <TotalHr hourSaved={hourSaved}/>
+     <HourSaved hourSaved={hourSaved}/>
     </Col>
   </Row>
 </Container>

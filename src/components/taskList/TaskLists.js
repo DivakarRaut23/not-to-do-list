@@ -1,7 +1,7 @@
 import React from 'react'
 import {Table, Button} from 'react-bootstrap'
 
-export const TaskLists = ({taskLists,handleOnRemoveTask}) => {
+export const TaskLists = ({taskLists,handleOnRemoveTask,handleOnDeleteTask}) => {
 
   console.log(taskLists)
 
@@ -25,7 +25,10 @@ export const TaskLists = ({taskLists,handleOnRemoveTask}) => {
                 <tr key={index}>
                 <td>{t.title}</td>
                 <td>{t.hr}</td>
-                <td><Button onClick={() => handleOnRemoveTask(index)}> Remove Task </Button></td>
+                <td>
+                  <Button onClick={() => handleOnRemoveTask(index)}> Remove Task </Button>
+                  <Button variant="danger" style={{marginLeft:'5px'}}onClick={() => handleOnDeleteTask(index)}> Delete </Button>
+                  </td>
                 </tr>
             )
 

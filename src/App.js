@@ -13,6 +13,8 @@ const  App = () => {
 
 const [taskList, setTaskList] = useState([]);
 const [notToDoList, setNotToDoList] = useState([])
+const [index, setIndex] = useState([])
+const [noIndex, setNoIndex] = useState([])
 
 const handleOnAddTask = formData => {
 
@@ -24,8 +26,7 @@ const handleOnAddTask = formData => {
 
     setTaskList([...taskList, formData]);
 
-  }
-    
+  }  
 }
 
 const handleOnRemoveTask = index => {
@@ -40,16 +41,22 @@ const handleOnRemoveTask = index => {
   console.log(notToDoList)
 }
 
-const handleOnDeleteTask = index => {
-  
-  const updatedArray = taskList.filter((item,i) => i !== index);
-  setTaskList(updatedArray)
+const handleOnDeleteTask = (index) => {
+  if(window.confirm("Are you sure want to delete the selected items? ")){
+    const updatedArray = taskList.filter((item,i) => !index.includes(i));
+    console.log("Updated array after delete>>", updatedArray)
+    setTaskList(updatedArray)
+    setIndex([]);
+  } 
 }
 
-const handleOnDeleteNotToList = index => {
-  
-  const updatedArray = notToDoList.filter((item,i) => i !== index);
-  setNotToDoList(updatedArray)
+const handleOnDeleteLeisure = (index) => {
+  if(window.confirm("Are you sure want to delete the selected items? ")){
+    const updatedArray = notToDoList.filter((item,i) => !index.includes(i));
+    console.log("Updated array after delete>>", updatedArray)
+    setNotToDoList(updatedArray)
+    setNoIndex([]);
+  } 
 }
 
 const markAsToDo = index => {
@@ -96,13 +103,17 @@ const totalHour = hourSaved + hoursAllocated ;
     taskLists={taskList}
     handleOnRemoveTask={handleOnRemoveTask}
     handleOnDeleteTask={handleOnDeleteTask}
+    index={index}
+    setIndex={setIndex}
     />
     </Col>
     <Col>
     <NotToDoLists 
     notToDoList={notToDoList}
     markAsToDo={markAsToDo}
-    handleOnDeleteNotToList={handleOnDeleteNotToList}
+    handleOnDeleteLeisure={handleOnDeleteLeisure}
+    noIndex={noIndex}
+    setNoIndex={setNoIndex}
     />
     </Col>
   </Row>

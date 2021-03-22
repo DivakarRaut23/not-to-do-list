@@ -1,7 +1,22 @@
 import React from 'react'
 import {Table, Button} from 'react-bootstrap';
 
-export  const NotToDoLists = ({notToDoList, markAsToDo,handleOnDeleteNotToList}) => {
+export  const NotToDoLists = ({notToDoList, markAsToDo,handleOnDeleteLeisure,noIndex,setNoIndex}) => {
+
+  const ifChecked = e => {
+    const {checked, value} = e.target;
+    console.log(checked, value)
+    if(checked){
+      return setNoIndex([...noIndex, +value])
+      
+    } 
+      const removeIndex = noIndex.filter((item) => item !== value);
+      setNoIndex(removeIndex)
+      console.log("index after popping>>", noIndex)
+   
+  }
+
+
     return (
         <>
         <h2>Not to do Task</h2>
@@ -18,17 +33,22 @@ export  const NotToDoLists = ({notToDoList, markAsToDo,handleOnDeleteNotToList})
 
 return (
     <tr key={index}>
-    <td>{nt.title}</td>
+    <td><input onChange={ifChecked}  defaultValue=
+                {index} type="checkbox" />
+                {""}
+    <label>{nt.title}</label></td>
     <td>{nt.hr}</td>
     <td>
       <Button onClick={() => markAsToDo(index)}> Add to Task </Button>
-      <Button variant="danger" style={{marginLeft:'5px'}}onClick={() => handleOnDeleteNotToList(index)}> Delete </Button>
       </td>
     </tr>
 )
 
 })
 }
+<tr>
+    <td> <Button variant="danger" onClick={() => handleOnDeleteLeisure(noIndex)}> Delete </Button></td>
+</tr>
   </tbody>
 </Table>
 </>

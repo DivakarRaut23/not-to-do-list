@@ -1,9 +1,22 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {Table, Button} from 'react-bootstrap'
 
-export const TaskLists = ({taskLists,handleOnRemoveTask,handleOnDeleteTask}) => {
 
-  console.log(taskLists)
+
+export const TaskLists = ({taskLists,handleOnRemoveTask,handleOnDeleteTask,index,setIndex}) => {
+
+  const ifChecked = e => {
+    const {checked, value} = e.target;
+    console.log(checked, value)
+    if(checked){
+      return setIndex([...index, +value])
+      
+    } 
+      const removeIndex = index.filter((item) => item !== value);
+      setIndex(removeIndex)
+      console.log("index after popping>>", index)
+   
+  }
 
     
     return (
@@ -23,17 +36,23 @@ export const TaskLists = ({taskLists,handleOnRemoveTask,handleOnDeleteTask}) => 
 
             return (
                 <tr key={index}>
-                <td>{t.title}</td>
+                {/* <td><input onChange={()=> ifChecked(index) }type="checkbox" /></td> */}
+                <td><input onChange={ifChecked}  defaultValue=
+                {index} type="checkbox" />
+                {""}
+                <label>{t.title}</label></td>
                 <td>{t.hr}</td>
                 <td>
-                  <Button onClick={() => handleOnRemoveTask(index)}> Remove Task </Button>
-                  <Button variant="danger" style={{marginLeft:'5px'}}onClick={() => handleOnDeleteTask(index)}> Delete </Button>
+                  <Button onClick={() => handleOnRemoveTask(index)}> Mark As Not To </Button>
                   </td>
                 </tr>
             )
 
             })
         }
+        <tr>
+          <td> <Button variant="danger" onClick={() => handleOnDeleteTask(index)}> Delete </Button></td>
+        </tr>
       
    
   </tbody>

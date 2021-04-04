@@ -4,9 +4,10 @@ dotenv.config()
 import express from "express";
 const app = express();
 import cors from 'cors';
-import bodyParser from "body-parser";
+import path from 'path'
 
-const PORT = 5000;
+
+const PORT = process.env.PORT || 5000;
 
 import router from "./router.js";
 import mongoClient from './config/db.js';
@@ -16,17 +17,30 @@ mongoClient();
 app.use(cors());
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: false }));
 
 // parse application/json
-app.use(bodyParser.json());
+app.use(express.json());
 
 app.use("/api/v1", router);
 
-app.use("/", (req, res) => {
-	// throw new Error("test error");
-	res.send("Working");
-});
+const __dirname = path.resolve()
+
+if (process.env.NODE_ENV !== 'production'){
+	app.use(express.static(
+		path.join(__dirname, '/react-not-to-do-list/build')
+	))
+
+	app.get("*", (req, res) => {
+		res.sendFile(path.join(__dirname, '/react-not-to-do-list/build/index.html' ))
+	
+	});
+	
+
+} else {
+	res.send("Welcome to the Paradise")
+}
+
 
 app.use((error, req, res, next) => {
 	console.log(error);
